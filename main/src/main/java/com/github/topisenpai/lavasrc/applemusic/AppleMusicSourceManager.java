@@ -243,7 +243,7 @@ public class AppleMusicSourceManager extends MirroringAudioSourceManager impleme
 		if (json == null || json.get("data").values().isEmpty()) {
 			return AudioReference.NO_TRACK;
 		}
-		return new BasicAudioPlaylist(json.get("data").index(0).get("attributes").get("artistName").text() + "'s Top Tracks", parseTracks(json), null, false);
+		return new BasicAudioPlaylist(json.get("data").index(0).get("attributes").get("artistName").text() + ": топ треков", parseTracks(json), null, false);
 	}
 
 	public AudioItem getSong(String id, String countryCode) throws IOException {
@@ -267,7 +267,7 @@ public class AppleMusicSourceManager extends MirroringAudioSourceManager impleme
 		var artwork = attributes.get("artwork");
 		return new AppleMusicAudioTrack(
 				new AudioTrackInfo(
-						attributes.get("name").text(),
+						attributes.get("artistName").text() + " - " + attributes.get("name").text(),
 						attributes.get("artistName").text(),
 						attributes.get("durationInMillis").asLong(0),
 						json.get("id").text(),

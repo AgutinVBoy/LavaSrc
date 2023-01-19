@@ -156,6 +156,7 @@ public class SpotifySourceManager extends MirroringAudioSourceManager implements
 	public JsonBrowser getJson(String uri) throws IOException {
 		var request = new HttpGet(uri);
 		request.addHeader("Authorization", "Bearer " + this.getToken());
+		request.addHeader("Accept-Language", "RU");
 		return HttpClientTools.fetchResponseAsJson(this.httpInterfaceManager.getInterface(), request);
 	}
 
@@ -174,7 +175,7 @@ public class SpotifySourceManager extends MirroringAudioSourceManager implements
 			return AudioReference.NO_TRACK;
 		}
 
-		return new BasicAudioPlaylist("Spotify Recommendations:", this.parseTracks(json), null, false);
+		return new BasicAudioPlaylist("Рекомендации Spotify:", this.parseTracks(json), null, false);
 	}
 
 	public AudioItem getAlbum(String id) throws IOException {
@@ -243,7 +244,7 @@ public class SpotifySourceManager extends MirroringAudioSourceManager implements
 		if (json == null || json.get("tracks").values().isEmpty()) {
 			return AudioReference.NO_TRACK;
 		}
-		return new BasicAudioPlaylist(json.get("tracks").index(0).get("artists").index(0).get("name").text() + "'s Top Tracks", this.parseTracks(json), null, false);
+		return new BasicAudioPlaylist(json.get("tracks").index(0).get("artists").index(0).get("name").text() + ": топ треков", this.parseTracks(json), null, false);
 	}
 
 	public AudioItem getTrack(String id) throws IOException {
@@ -276,7 +277,7 @@ public class SpotifySourceManager extends MirroringAudioSourceManager implements
 	private AudioTrack parseTrack(JsonBrowser json) {
 		return new SpotifyAudioTrack(
 				new AudioTrackInfo(
-						json.get("name").text(),
+						json.get("artists").index(0).get("name").text() + " - " + json.get("name").text(),
 						json.get("artists").index(0).get("name").text(),
 						json.get("duration_ms").asLong(0),
 						json.get("id").text(),

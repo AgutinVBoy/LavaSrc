@@ -50,7 +50,7 @@ public abstract class MirroringAudioTrack extends DelegatedAudioTrack {
 			processDelegate((InternalAudioTrack) track, executor);
 			return;
 		}
-		throw new FriendlyException("No matching track found", FriendlyException.Severity.COMMON, new TrackNotFoundException());
+		throw new FriendlyException("Соответствующий трек не был найден", FriendlyException.Severity.COMMON, new TrackNotFoundException());
 	}
 
 	@Override

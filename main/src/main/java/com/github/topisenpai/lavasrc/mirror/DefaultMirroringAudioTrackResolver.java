@@ -59,7 +59,7 @@ public class DefaultMirroringAudioTrackResolver implements MirroringAudioTrackRe
 	}
 
 	public String getTrackTitle(MirroringAudioTrack mirroringAudioTrack) {
-		var query = mirroringAudioTrack.getInfo().title;
+		var query = mirroringAudioTrack.getInfo().title.replaceFirst(mirroringAudioTrack.getInfo().author + " - ", "");
 		if (!mirroringAudioTrack.getInfo().author.equals("unknown")) {
 			query += " " + mirroringAudioTrack.getInfo().author;
 		}

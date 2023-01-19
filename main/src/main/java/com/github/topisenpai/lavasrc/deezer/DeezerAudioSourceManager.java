@@ -131,7 +131,7 @@ public class DeezerAudioSourceManager implements AudioSourceManager, HttpConfigu
 	private AudioTrack parseTrack(JsonBrowser json) {
 		var id = json.get("id").text();
 		return new DeezerAudioTrack(new AudioTrackInfo(
-				json.get("title").text(),
+				json.get("artist").get("name").text() + " - " + json.get("title").text(),
 				json.get("artist").get("name").text(),
 				json.get("duration").as(Long.class) * 1000,
 				id,
@@ -190,7 +190,7 @@ public class DeezerAudioSourceManager implements AudioSourceManager, HttpConfigu
 		if (json == null || json.get("data").values().isEmpty()) {
 			return AudioReference.NO_TRACK;
 		}
-		return new BasicAudioPlaylist(json.get("data").index(0).get("artist").get("name").text() + "'s Top Tracks", this.parseTracks(json), null, false);
+		return new BasicAudioPlaylist(json.get("data").index(0).get("artist").get("name").text() + ": топ треков", this.parseTracks(json), null, false);
 	}
 
 	@Override

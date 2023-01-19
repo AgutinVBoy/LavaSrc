@@ -137,7 +137,7 @@ public class YandexMusicSourceManager implements AudioSourceManager, HttpConfigu
 		if (tracks.isEmpty()) {
 			return AudioReference.NO_TRACK;
 		}
-		return new BasicAudioPlaylist(artistName + "'s Top Tracks", tracks, null, false);
+		return new BasicAudioPlaylist(artistName + ": топ треков", tracks, null, false);
 	}
 
 	private AudioItem getPlaylist(String userString, String id) throws IOException {
@@ -152,7 +152,7 @@ public class YandexMusicSourceManager implements AudioSourceManager, HttpConfigu
 		if (tracks.isEmpty()) {
 			return AudioReference.NO_TRACK;
 		}
-		var playlist_title = json.get("result").get("kind").text().equals("3") ? "Liked songs" : json.get("result").get("title").text();
+		var playlist_title = json.get("result").get("kind").text().equals("3") ? "Любимые песни" : json.get("result").get("title").text();
 		return new BasicAudioPlaylist(playlist_title, tracks, null, false);
 	}
 
@@ -189,7 +189,7 @@ public class YandexMusicSourceManager implements AudioSourceManager, HttpConfigu
 		var artist = json.get("major").get("name").text().equals("PODCASTS") ? json.get("albums").values().get(0).get("title").text() : json.get("artists").values().get(0).get("name").text();
 		var coverUri = json.get("albums").values().get(0).get("coverUri").text();
 		return new YandexMusicAudioTrack(new AudioTrackInfo(
-				json.get("title").text(),
+				artist + " - " + json.get("title").text(),
 				artist,
 				json.get("durationMs").as(Long.class),
 				id,
